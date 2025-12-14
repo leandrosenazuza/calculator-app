@@ -12,9 +12,13 @@ export default function Calculadora() {
 
   useEffect(() => {
     if (user?.tabela) {
-      axios.get(`http://localhost:3001/tables-taxes/${user.tabela}`)
-        .then(res => setTabela(res.data))
-        .catch(() => alert("Erro ao carregar a tabela"));
+      // Busca a tabela pelo nome usando o novo endpoint da API
+      axios.get(`/api/tabelas/${user.tabela}`)
+        .then(res => setTabela(res.data.data)) // res.data.data contém o JSON da tabela
+        .catch(() => {
+          console.error("Erro ao carregar a tabela:", user.tabela);
+          alert("Erro ao carregar a tabela");
+        });
     }
 
     const handleKeyDown = (e) => {
